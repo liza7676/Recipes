@@ -1,0 +1,18 @@
+package com.example.recipes.utils
+
+import com.example.recipes.data.entity.Recipes
+
+object Converter {
+
+    fun convertApiListToDtoList(list: List<com.example.remote_module.entity.TmdbRecipes>?): List<Recipes> {
+        val result = mutableListOf<Recipes>()
+        list?.forEach {
+            result.add(Recipes(
+                title = it.title,
+                poster = it.posterPath,
+
+            ))
+        }
+        return result
+    }
+}

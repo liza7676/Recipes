@@ -7,9 +7,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.recipes.databinding.ActivityMainBinding
-import com.example.searchrecipes.FavoritesFragment
-import com.example.searchrecipes.ResultFragment
-import com.example.searchrecipes.SearchFragment
+import com.example.recipes.view.fragments.FavoritesFragment
+import com.example.recipes.view.fragments.ResultFragment
+import com.example.recipes.view.fragments.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
