@@ -20,14 +20,33 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
                  private val preferences: PreferenceProvider
 ) {
     var progressBarState: BehaviorSubject<Boolean> = BehaviorSubject.create()
-    fun getRecipesFromApi(page: Int) {
+//    fun getRecipesFromApi(page: Int) {
+//        //Показываем ProgressBar
+//        progressBarState.onNext(true)
+//        //Метод getDefaultCategoryFromPreferences() будет получать при каждом запросе нужный нам список рецептов
+//        retrofitService.getRecipes(getDefaultCategoryFromPreferences(), API.apiKey)
+//            .subscribeOn(Schedulers.io())
+//            .map {
+//                Converter.convertApiListToDtoList(it.tmdbRecipes)
+//            }
+//            .subscribeBy(
+//                onError = {
+//                    progressBarState.onNext(false)
+//                },
+//                onNext = {
+//                    progressBarState.onNext(false)
+//                    repo.putToDb(it)
+//                }
+//            )
+//    }
+
+    fun getTriviaFromApi(){
         //Показываем ProgressBar
         progressBarState.onNext(true)
-        //Метод getDefaultCategoryFromPreferences() будет получать при каждом запросе нужный нам список рецептов
-        retrofitService.getRecipes(getDefaultCategoryFromPreferences(), API.apiKey)
+        retrofitService.getTrivia( API.apiKey)
             .subscribeOn(Schedulers.io())
             .map {
-                Converter.convertApiListToDtoList(it.tmdbRecipes)
+                preferences.saveTrivia(it.tmdbTrivia)
             }
             .subscribeBy(
                 onError = {
@@ -35,16 +54,12 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
                 },
                 onNext = {
                     progressBarState.onNext(false)
-                    repo.putToDb(it)
                 }
             )
     }
-    //Метод для сохранения настроек
-    fun saveDefaultCategoryToPreferences(category: String) {
-        preferences.saveDefaultCategory(category)
-    }
+
     //Метод для получения настроек
-    fun getDefaultCategoryFromPreferences() = preferences.getDefaultCategory()
+    fun getTrivia() = preferences.getTrivia()
 
     fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
 

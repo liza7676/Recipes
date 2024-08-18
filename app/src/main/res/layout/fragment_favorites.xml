@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/material_dynamic_tertiary80"
     android:orientation="vertical"
-    tools:context=".FavoritesFragment">
+    tools:context=".view.fragments.FavoritesFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

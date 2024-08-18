@@ -1,6 +1,7 @@
 package com.example.recipes
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,6 +11,11 @@ import com.example.recipes.databinding.ActivityMainBinding
 import com.example.recipes.view.fragments.FavoritesFragment
 import com.example.recipes.view.fragments.ResultFragment
 import com.example.recipes.view.fragments.SearchFragment
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
+import java.util.concurrent.Executors
+import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity() {
 
@@ -44,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+       //Thread.sleep(1000)
         supportFragmentManager
         .beginTransaction()
         .add(R.id.fragment_placeholder, SearchFragment())

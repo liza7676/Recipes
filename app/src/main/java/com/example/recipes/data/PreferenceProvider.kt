@@ -11,36 +11,21 @@ class PreferenceProvider(context: Context) {
     private val preference: SharedPreferences = appContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
     init {
-        //Логика для первого запуска приложения, чтобы положить наши настройки,
-        //Сюда потом можно добавить и другие настройки
-        if(preference.getBoolean(KEY_FIRST_LAUNCH, false)) {
-            preference.edit().putString(KEY_DEFAULT_CATEGORY, DEFAULT_CATEGORY).apply()
-            preference.edit().putBoolean(KEY_FIRST_LAUNCH, false).apply()
-            preference.edit().putLong(DOWNLOAD_TIME, 0).apply()
-        }
+
     }
 
-    //Category prefs
-    //Сохраняем категорию
-    fun saveDefaultCategory(category: String) {
-        preference.edit().putString(KEY_DEFAULT_CATEGORY, category) .apply()
-    }
-    //Забираем категорию
-    fun getDefaultCategory(): String {
-        return preference.getString(KEY_DEFAULT_CATEGORY, DEFAULT_CATEGORY) ?: DEFAULT_CATEGORY
+
+    fun saveTrivia(trivia: String) {
+        preference.edit().putString(TRIVIA, trivia) .apply()
     }
 
-    fun saveDounloadTime(data: Long) {
-        preference.edit().putLong(DOWNLOAD_TIME, data) .apply()
+    fun getTrivia(): String {
+        return preference.getString(TRIVIA, DEFAULT_TRIVIA) ?: DEFAULT_TRIVIA
     }
-    fun getDounloadTime(): Long {
-        return preference.getLong(DOWNLOAD_TIME, 0)
-    }
+
     //Ключи для наших настроек, по ним мы их будем получать
     companion object {
-        private const val KEY_FIRST_LAUNCH = "first_launch"
-        private const val KEY_DEFAULT_CATEGORY = "default_category"
-        private const val DEFAULT_CATEGORY = "popular"
-        private const val DOWNLOAD_TIME = "dounload_time"
+        private const val DEFAULT_TRIVIA = "no data"
+        private const val TRIVIA = "trivia"
     }
 }

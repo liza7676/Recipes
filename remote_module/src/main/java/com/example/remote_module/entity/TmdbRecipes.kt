@@ -11,3 +11,9 @@ data class TmdbRecipes (
     val title: String
 
 )
+
+data class TmdbTrivia (
+    @SerializedName("text")
+    val text: String
+
+)

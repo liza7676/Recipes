@@ -1,6 +1,8 @@
 package com.example.remote_module
 
+import com.example.remote_module.entity.ApiConstants.TRIVIA
 import com.example.remote_module.entity.TmdbResultsDto
+import com.example.remote_module.entity.TmdbTriviaDto
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.GET
@@ -11,7 +13,12 @@ interface TmdbApi {
     @GET("recipes/complexSearch?{number}")
     fun getRecipes(
         @Path("number") number: String,
-        @Query("api_key") apiKey: String,
+        @Query("apiKey") apiKey: String,
     ): Observable<TmdbResultsDto>
+
+    @GET(TRIVIA)
+    fun getTrivia(
+        @Query("apiKey") apiKey: String,
+    ): Observable<TmdbTriviaDto>
 
 }
