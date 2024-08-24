@@ -5,4 +5,37 @@
     <string name="find">ИСКАТЬ!</string>
     <string name="back">НАЗАД</string>
     <string name="search_recipes">ПОИСК РЕЦЕПТОВ</string>
+    <string-array name="cuisineList">
+        <item>Any</item>
+        <item>Asian</item>
+        <item>American</item>
+        <item>Chinese</item>
+        <item>European</item>
+        <item>French</item>
+        <item>Indian</item>
+    </string-array>
+    <string-array name="dietList">
+        <item>Any</item>
+        <item>Vegetarian</item>
+    </string-array>
+    <string-array name="typeList">
+        <item>Any</item>
+        <item>main course</item>
+        <item>side dish</item>
+        <item>dessert</item>
+        <item>appetizer</item>
+        <item>salad</item>
+        <item>bread</item>
+        <item>breakfast</item>
+        <item>soup</item>
+        <item>beverage</item>
+    </string-array>
+    <string-array name="timeList">
+        <item>Any</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>90</item>
+    </string-array>
 </resources>

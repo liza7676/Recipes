@@ -1,6 +1,7 @@
 package com.example.recipes.view.fragments
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //viewModel.getTrivia()
+        binding.trivia.movementMethod = ScrollingMovementMethod()
         val s = viewModel.interactor.getTrivia()
         binding.trivia.text = s
         binding.btnFind.setOnClickListener {
