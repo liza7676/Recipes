@@ -20,25 +20,25 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
                  private val preferences: PreferenceProvider
 ) {
     var progressBarState: BehaviorSubject<Boolean> = BehaviorSubject.create()
-//    fun getRecipesFromApi(page: Int) {
-//        //Показываем ProgressBar
-//        progressBarState.onNext(true)
-//        //Метод getDefaultCategoryFromPreferences() будет получать при каждом запросе нужный нам список рецептов
-//        retrofitService.getRecipes(getDefaultCategoryFromPreferences(), API.apiKey)
-//            .subscribeOn(Schedulers.io())
-//            .map {
-//                Converter.convertApiListToDtoList(it.tmdbRecipes)
-//            }
-//            .subscribeBy(
-//                onError = {
-//                    progressBarState.onNext(false)
-//                },
-//                onNext = {
-//                    progressBarState.onNext(false)
-//                    repo.putToDb(it)
-//                }
-//            )
-//    }
+    fun getRecipesFromApi(page: Int) {
+        //Показываем ProgressBar
+        progressBarState.onNext(true)
+        //Метод getDefaultCategoryFromPreferences() будет получать при каждом запросе нужный нам список рецептов
+        retrofitService.getRecipes("1", API.apiKey)
+            .subscribeOn(Schedulers.io())
+            .map {
+                Converter.convertApiListToDtoList(it.tmdbRecipes)
+            }
+            .subscribeBy(
+                onError = {
+                    progressBarState.onNext(false)
+                },
+                onNext = {
+                    progressBarState.onNext(false)
+                    repo.putToDb(it)
+                }
+            )
+    }
 
     fun getTriviaFromApi(){
         //Показываем ProgressBar
@@ -58,11 +58,11 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
             )
     }
 
-    //Метод для получения настроек
     fun getTrivia() = preferences.getTrivia()
 
     fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
 
     fun clearCache() = repo.clearCache()
+    fun getRecipes() = preferences.getRecipes()
 
 }

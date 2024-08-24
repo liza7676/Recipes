@@ -23,9 +23,14 @@ class PreferenceProvider(context: Context) {
         return preference.getString(TRIVIA, DEFAULT_TRIVIA) ?: DEFAULT_TRIVIA
     }
 
+    fun getRecipes(): String {
+        return preference.getString(TRIVIA, DEFAULT_TRIVIA) ?: DEFAULT_TRIVIA
+    }
+
     //Ключи для наших настроек, по ним мы их будем получать
     companion object {
         private const val DEFAULT_TRIVIA = "no data"
         private const val TRIVIA = "trivia"
+        private const val RECIPES = "recipes"
     }
 }

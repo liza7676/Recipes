@@ -3,14 +3,17 @@ package com.example.recipes
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.recipes.databinding.ActivityMainBinding
+import com.example.recipes.view.fragments.DataSearch
 import com.example.recipes.view.fragments.FavoritesFragment
 import com.example.recipes.view.fragments.ResultFragment
 import com.example.recipes.view.fragments.SearchFragment
+import com.example.recipes.viewmodel.SearchFragmentViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
@@ -68,9 +71,9 @@ class MainActivity : AppCompatActivity() {
             //.addToBackStack(null)
             .commit()
     }
-    fun launchResultFragment() {
+    fun launchResultFragment(s:DataSearch) {
 
-        val fragment = ResultFragment()
+        val fragment = ResultFragment(s)
 
         supportFragmentManager
             .beginTransaction()

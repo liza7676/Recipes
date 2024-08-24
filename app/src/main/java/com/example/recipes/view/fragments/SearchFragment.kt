@@ -35,9 +35,18 @@ class SearchFragment : Fragment() {
         binding.trivia.movementMethod = ScrollingMovementMethod()
         val s = viewModel.interactor.getTrivia()
         binding.trivia.text = s
+
+
         binding.btnFind.setOnClickListener {
-            (requireActivity() as MainActivity).launchResultFragment()
-            //viewModel.getTrivia()
+            val cuisine = binding.cuisineList.getSelectedItem().toString()
+            val diet = binding.dietList.getSelectedItem().toString()
+            val ingredients = binding.ingredients.text.toString()
+            val type = binding.typeList.getSelectedItem().toString()
+            val time = binding.timeList.getSelectedItem().toString()
+            val data = DataSearch(cuisine, diet, ingredients, type, time)
+            (requireActivity() as MainActivity).launchResultFragment(data)
         }
+
+
     }
 }
