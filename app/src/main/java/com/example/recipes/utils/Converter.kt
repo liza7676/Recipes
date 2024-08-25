@@ -9,7 +9,7 @@ object Converter {
         list?.forEach {
             result.add(Recipes(
                 title = it.title,
-                poster = it.posterPath,
+                poster = it.image,
 
             ))
         }

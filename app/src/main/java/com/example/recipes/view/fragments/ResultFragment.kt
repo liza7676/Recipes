@@ -6,16 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.recipes.MainActivity
 import com.example.recipes.databinding.FragmentResultBinding
 import com.example.recipes.viewmodel.ResultFragmentViewModel
 
 
-class ResultFragment(param:DataSearch) : Fragment() {
+class ResultFragment() : Fragment() {
     private lateinit var binding: FragmentResultBinding
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(ResultFragmentViewModel::class.java)
     }
-    private var params = param
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -30,8 +31,10 @@ class ResultFragment(param:DataSearch) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.text.text = params.cuisine
-        val s = viewModel.interactor.getRecipes()
+
+        viewModel.getRecipes((requireActivity() as MainActivity).paramsSearch)
+        //binding.text.text = params.cuisine
+        //val s = viewModel.interactor.getRecipes()
     }
 
 }

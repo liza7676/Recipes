@@ -11,6 +11,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainRepository(private val recipesDao: RecipesDao) {
     private val autoDisposable = AutoDisposable()
+    lateinit var recipesList: MutableList<Recipes>
     fun putToDb(recipes: List<Recipes>) {
         //Запросы в БД должны быть в отдельном потоке
         recipesDao.insertAll(recipes)
@@ -27,6 +28,9 @@ class MainRepository(private val recipesDao: RecipesDao) {
                     recipesDao.deleteDB(list)
                 }
                 .addTo(autoDisposable)
+    }
+    fun putToList(recipes: List<Recipes>){
+        recipesList = recipes.toMutableList()
     }
 
 }

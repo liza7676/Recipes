@@ -8,11 +8,17 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface TmdbApi {
-    @GET("recipes/complexSearch?{number}")
+    @GET("recipes/complexSearch?")
     fun getRecipes(
-        @Path("number") number: String,
+        @Query("cuisine") cuisine: String?,
+        @Query("diet") diet: String?,
+        @Query("includeIngredients") includeIngredients: String?,
+        @Query("type") type: String?,
+        @Query("maxReadyTime") maxReadyTime: String?,
+        @Query("number") number: String,
         @Query("apiKey") apiKey: String,
     ): Observable<TmdbResultsDto>
 

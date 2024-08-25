@@ -23,6 +23,7 @@ import javax.net.ssl.HttpsURLConnection
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    val paramsSearch = DataSearch("Any", "Any", "Any", "Any", "Any")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -71,9 +72,9 @@ class MainActivity : AppCompatActivity() {
             //.addToBackStack(null)
             .commit()
     }
-    fun launchResultFragment(s:DataSearch) {
+    fun launchResultFragment() {
 
-        val fragment = ResultFragment(s)
+        val fragment = ResultFragment()
 
         supportFragmentManager
             .beginTransaction()

@@ -3,6 +3,7 @@ package com.example.recipes.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.recipes.App
 import com.example.recipes.domain.Interactor
+import com.example.recipes.view.fragments.DataSearch
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import javax.inject.Inject
 
@@ -13,9 +14,9 @@ class ResultFragmentViewModel  : ViewModel() {
     init {
         App.instance.dagger.inject(this)
         showProgressBar = interactor.progressBarState
-        getRecipes()
+        //getRecipes()
     }
-    fun getRecipes(){
-        interactor.getRecipesFromApi(1)
+    fun getRecipes(param: DataSearch){
+        interactor.getRecipesFromApi(param)
     }
 }
