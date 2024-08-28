@@ -15,11 +15,12 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
                  private val preferences: PreferenceProvider
 ) {
     var progressBarState: BehaviorSubject<Boolean> = BehaviorSubject.create()
+    var params = DataSearch(null, null, null, null, null)
     fun getRecipesFromApi(param: DataSearch) {
         //Показываем ProgressBar
         progressBarState.onNext(true)
         //Метод getDefaultCategoryFromPreferences() будет получать при каждом запросе нужный нам список рецептов
-        var params = DataSearch(null, null, null, null, null)
+
         if (!param.cuisine.equals("Any"))
             params.cuisine = param.cuisine
         if (!param.diet.equals("Any"))
@@ -41,8 +42,8 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
                 },
                 onNext = {
                     progressBarState.onNext(false)
-                    //repo.putToDb(it)
-                    repo.putToList(it)
+                    repo.putToDb(it)
+                        //repo.putToList(it)
                 }
             )
     }
@@ -72,6 +73,10 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
 
     fun clearCache() = repo.clearCache()
-    fun getRecipes() = preferences.getRecipes()
+    fun getRecipes(paramsSearch: DataSearch) = preferences.getRecipes()
 
+    fun getSearchResultFromApi(search: String): Observable<List<Recipes>> = retrofitService.getRecipes(params.cuisine,params.diet, params.ingredients, params.type, params.time,"2",  API.apiKey)
+        .map {
+            Converter.convertApiListToDtoList(it.tmdbRecipes)
+        }
 }
