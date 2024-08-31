@@ -17,3 +17,13 @@ data class TmdbTrivia (
     val text: String
 
 )
+
+data class TmdbSummary (
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("sourceUrl")
+    val sourceUrl: String,
+    @SerializedName("title")
+    val title: String
+
+)

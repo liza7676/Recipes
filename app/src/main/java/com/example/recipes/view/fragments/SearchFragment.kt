@@ -38,14 +38,14 @@ class SearchFragment : Fragment() {
 
 
         binding.btnFind.setOnClickListener {
-            (requireActivity() as MainActivity).paramsSearch.cuisine = binding.cuisineList.getSelectedItem().toString()
-            (requireActivity() as MainActivity).paramsSearch.diet = binding.dietList.getSelectedItem().toString()
-            (requireActivity() as MainActivity).paramsSearch.ingredients = binding.ingredients.text.toString()
-            (requireActivity() as MainActivity).paramsSearch.type = binding.typeList.getSelectedItem().toString()
-            (requireActivity() as MainActivity).paramsSearch.time = binding.timeList.getSelectedItem().toString()
-           // val data = DataSearch(cuisine, diet, ingredients, type, time)
-           // viewModel.interactor.setParam(data)
-            (requireActivity() as MainActivity).paramsSearch.cuisine
+            //viewModel.interactor.clearCache()
+            val params = DataSearch(
+            binding.cuisineList.getSelectedItem().toString(),
+            binding.dietList.getSelectedItem().toString(),
+            binding.ingredients.text.toString(),
+            binding.typeList.getSelectedItem().toString(),
+            binding.timeList.getSelectedItem().toString())
+            viewModel.interactor.setParam(params)
             (requireActivity() as MainActivity).launchResultFragment()
         }
 

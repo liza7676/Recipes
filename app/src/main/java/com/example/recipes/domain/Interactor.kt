@@ -42,8 +42,8 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
                 },
                 onNext = {
                     progressBarState.onNext(false)
-                    repo.putToDb(it)
-                        //repo.putToList(it)
+                    //repo.putToDb(it)
+                        repo.putToList(it)
                 }
             )
     }
@@ -66,12 +66,35 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
             )
     }
 
-    fun getTrivia() = preferences.getTrivia()
-    fun getParam() = preferences.gatParam()
-    fun setParam(param: DataSearch) = preferences.saveParam(param)
+    fun getSummaryFromApi(id: String){
+        //Показываем ProgressBar
+        progressBarState.onNext(true)
+        retrofitService.getSummary(id,  API.apiKey)
+            .subscribeOn(Schedulers.io())
+            .map {
+                repo.setUrl(it.tmdbSourceUrl)
+            }
+            .subscribeBy(
+                onError = {
+                    progressBarState.onNext(false)
+                },
+                onNext = {
+                    progressBarState.onNext(false)
+                }
+            )
+    }
 
+    fun getTrivia() = preferences.getTrivia()
+   // fun getParam() = preferences.gatParam()
+    //fun setParam(param: DataSearch) = preferences.saveParam(param)
+    fun setParam(param: DataSearch) = repo.setParam(param)
+    fun getParam() = repo.getParams()
+
+    fun getUrl() = repo.getUrl()
     fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
 
+
+    fun clearInCacheRecipes() = repo.clearInCacheRecipes()
     fun clearCache() = repo.clearCache()
     fun getRecipes(paramsSearch: DataSearch) = preferences.getRecipes()
 
@@ -79,4 +102,5 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
         .map {
             Converter.convertApiListToDtoList(it.tmdbRecipes)
         }
+    fun getFromList() : MutableList<Recipes>? = repo.getFromList()
 }

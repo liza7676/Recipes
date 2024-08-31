@@ -17,3 +17,8 @@ data class TmdbTriviaDto (
     @SerializedName("text")
     val tmdbTrivia: String
 )
+
+data class TmdbSummaryDto (
+    @SerializedName("sourceUrl")
+    val tmdbSourceUrl: String
+)

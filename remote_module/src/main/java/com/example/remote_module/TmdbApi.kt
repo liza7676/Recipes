@@ -2,6 +2,7 @@ package com.example.remote_module
 
 import com.example.remote_module.entity.ApiConstants.TRIVIA
 import com.example.remote_module.entity.TmdbResultsDto
+import com.example.remote_module.entity.TmdbSummaryDto
 import com.example.remote_module.entity.TmdbTriviaDto
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
@@ -27,4 +28,9 @@ interface TmdbApi {
         @Query("apiKey") apiKey: String,
     ): Observable<TmdbTriviaDto>
 
+    @GET("recipes/{id}/information?includeNutrition=false")
+    fun getSummary(
+        @Path("id") id: String,
+        @Query("apiKey") apiKey: String,
+    ): Observable<TmdbSummaryDto>
 }

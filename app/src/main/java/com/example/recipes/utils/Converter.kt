@@ -10,7 +10,7 @@ object Converter {
             result.add(Recipes(
                 title = it.title,
                 poster = it.image,
-
+                id = it.id
             ))
         }
         return result

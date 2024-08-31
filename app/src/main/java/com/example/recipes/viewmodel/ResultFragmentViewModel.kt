@@ -21,10 +21,14 @@ class ResultFragmentViewModel  : ViewModel() {
         App.instance.dagger.inject(this)
         showProgressBar = interactor.progressBarState
         recipesListData = interactor.getRecipesFromDB()
-        //getRecipes()
+        getRecipes(interactor.getParam())
     }
     fun getRecipes(param: DataSearch){
         interactor.getRecipesFromApi(param)
+    }
+
+    fun getSummary(id: String){
+        interactor.getSummaryFromApi(id)
     }
 
     fun getSearchResult(search: String) = interactor.getSearchResultFromApi(search)
