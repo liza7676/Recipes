@@ -16,14 +16,14 @@ class RecipesListRecyclerAdapter (private val clickListener: OnItemClickListener
     //Этот метод нужно переопределить на возврат количества элементов в списке RV
     override fun getItemCount() = items.size
 
-    //В этом методе мы привязываем наш ViewHolder и передаем туда "надутую" верстку нашего фильма
+    //В этом методе мы привязываем наш ViewHolder и передаем туда "надутую" верстку нашего рецепта
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return RecipesViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.recipes_item, parent, false)
         )
     }
 
-    //В этом методе будет привязка полей из объекта Film к View из film_item.xml
+    //В этом методе будет привязка полей из объекта Recipes к View из recipes_item.xml
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is RecipesViewHolder -> {
@@ -54,6 +54,6 @@ class RecipesListRecyclerAdapter (private val clickListener: OnItemClickListener
 
     //Интерфейс для обработки кликов
     interface OnItemClickListener {
-        fun click(film: Recipes)
+        fun click(recipes: Recipes)
     }
 }

@@ -7,12 +7,11 @@ import com.example.recipes.databinding.RecipesItemBinding
 import com.bumptech.glide.Glide
 class RecipesViewHolder (private val itemView: View
 ) : RecyclerView.ViewHolder(itemView) {
-    private val filmItemBinding = RecipesItemBinding.bind(itemView)
+    private val recipesItemBinding = RecipesItemBinding.bind(itemView)
 
     //Привязываем View из layout к переменным
-    private val title = filmItemBinding.title
-    private val poster = filmItemBinding.poster
-    private val description = filmItemBinding.description
+    private val title = recipesItemBinding.title
+    private val poster = recipesItemBinding.poster
 
         fun bind(recipes: Recipes) {
         //Устанавливаем заголовок
@@ -22,8 +21,6 @@ class RecipesViewHolder (private val itemView: View
             .load(recipes.poster)
             .centerCrop()
             .into(poster)
-        //Устанавливаем описание
-        //description.text = recipes.description
 
     }
 }

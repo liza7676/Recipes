@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipes.MainActivity
@@ -21,14 +19,9 @@ import com.example.recipes.utils.AutoDisposable
 import com.example.recipes.utils.addTo
 import com.example.recipes.viewmodel.ResultFragmentViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.ObservableOnSubscribe
-import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.Locale
-import java.util.concurrent.TimeUnit
+import java.util.concurrent.Executors
 
-import kotlinx.coroutines.*
 class ResultFragment() : Fragment() {
     private lateinit var binding: FragmentResultBinding
     private val viewModel by lazy {
@@ -64,53 +57,7 @@ class ResultFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // viewModel.interactor.clearInCacheRecipes()
-//        binding.searchView.setOnClickListener {
-//            binding.searchView.isIconified = false
-//        }
-//        Observable.create(ObservableOnSubscribe<String> { subscriber ->
-//            //Вешаем слушатель на клавиатуру
-//            binding.searchView.setOnQueryTextListener(object :
-//            //Вызывается на ввод символов
-//                SearchView.OnQueryTextListener {
-//                override fun onQueryTextChange(newText: String): Boolean {
-//                    recipesAdapter.items.clear()
-//                    subscriber.onNext(newText)
-//                    return false
-//                }
-//
-//                //Вызывается по нажатию кнопки "Поиск"
-//                override fun onQueryTextSubmit(query: String): Boolean {
-//                    subscriber.onNext(query)
-//                    return false
-//                }
-//            })
-//        })
-//            .subscribeOn(Schedulers.io())
-//            .map {
-//                it.toLowerCase(Locale.getDefault()).trim()
-//            }
-//            .debounce(800, TimeUnit.MILLISECONDS)
-//            .filter {
-//                //Если в поиске пустое поле, возвращаем список  по умолчанию
-//                viewModel.getRecipes((requireActivity() as MainActivity).paramsSearch)
-//                it.isNotBlank()
-//            }
-//            .flatMap {
-//                viewModel.getSearchResult(it)
-//            }
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribeBy(
-//                onError = {
-//                    Toast.makeText(requireContext(), "Что-то пошло не так", Toast.LENGTH_SHORT)
-//                        .show()
-//                },
-//                onNext = {
-//                    recipesAdapter.addItems(it)
-//                }
-//            )
-//            .addTo(autoDisposable)
+
 
         binding.mainRecycler.apply {
             //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
@@ -118,8 +65,6 @@ class ResultFragment() : Fragment() {
             recipesAdapter =
                 RecipesListRecyclerAdapter(object : RecipesListRecyclerAdapter.OnItemClickListener {
                     override fun click(recipes: Recipes) {
-
-
                         AlertDialog.Builder((requireActivity() as MainActivity))
                             .setTitle("${recipes.title.toString()}")
                             .setPositiveButton("Хотите перейти к рецепту?") { _, _ ->
@@ -138,10 +83,10 @@ class ResultFragment() : Fragment() {
                                     val intent = Intent()
                                     //Указываем action с которым он запускается
                                     intent.action = Intent.ACTION_SEND
-                                    //Кладем данные о нашем фильме
+                                    //Кладем данные о нашем рецепте
                                     intent.putExtra(
                                         Intent.EXTRA_TEXT,
-                                        "Check out this film: ${recipes.title.toString()} \n\n ${url}"
+                                        "Check out this recipes: ${recipes.title.toString()} \n\n ${url}"
                                     )
                                     //Указываем MIME тип, чтобы система знала, какое приложения предложить
                                     intent.type = "text/plain"
@@ -156,6 +101,10 @@ class ResultFragment() : Fragment() {
                                 }
                             }
                             .setNegativeButton("Добавить рецепт в избранное?") { _, _ ->
+                                val list = listOf(recipes)
+                                Executors.newSingleThreadExecutor().execute {
+                                    viewModel.interactor.putToDb(list)
+                                }
                                 Toast.makeText(
                                     view.context,
                                     "Рецепт добавлен",
@@ -172,14 +121,6 @@ class ResultFragment() : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
 
         }
-//        viewModel.recipesListData
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe { list ->
-//                recipesAdapter.addItems(list)
-//                recipesDataBase = list
-//            }
-//            .addTo(autoDisposable)
 
         viewModel.showProgressBar
             .subscribeOn(Schedulers.io())
@@ -199,17 +140,7 @@ class ResultFragment() : Fragment() {
             Thread.sleep(100)
         }
     }
-//    private fun initPullToRefresh() {
-//        //Вешаем слушатель, чтобы вызвался pull to refresh
-//        binding.pullToRefresh.setOnRefreshListener {
-//            //Чистим адаптер(items нужно будет сделать паблик или создать для этого публичный метод
-//            recipesAdapter.items.clear()
-//            //Делаем новый запрос фильмов на сервер
-//            viewModel.getRecipes((requireActivity() as MainActivity).paramsSearch)
-//            //Убираем крутящиеся колечко
-//            binding.pullToRefresh.isRefreshing = false
-//        }
-//    }
+
     override fun onStop() {
         super.onStop()
     }

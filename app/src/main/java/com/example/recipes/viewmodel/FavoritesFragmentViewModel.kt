@@ -19,9 +19,5 @@ class FavoritesFragmentViewModel : ViewModel() {
         App.instance.dagger.inject(this)
         showProgressBar = interactor.progressBarState
         recipesListData = interactor.getRecipesFromDB()
-//        getRecipes()
     }
-//    fun getRecipes() {
-//        interactor.getRecipesFromApi(1)
-//    }
 }

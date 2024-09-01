@@ -92,7 +92,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
 
     fun getUrl() = repo.getUrl()
     fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
-
+    fun putToDb(list: List<Recipes>) = repo.putToDb(list)
 
     fun clearInCacheRecipes() = repo.clearInCacheRecipes()
     fun clearCache() = repo.clearCache()
