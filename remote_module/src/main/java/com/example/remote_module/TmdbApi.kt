@@ -19,6 +19,7 @@ interface TmdbApi {
         @Query("includeIngredients") includeIngredients: String?,
         @Query("type") type: String?,
         @Query("maxReadyTime") maxReadyTime: String?,
+        @Query("offset") offset: String,
         @Query("number") number: String,
         @Query("apiKey") apiKey: String,
     ): Observable<TmdbResultsDto>

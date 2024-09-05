@@ -16,6 +16,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
 ) {
     var progressBarState: BehaviorSubject<Boolean> = BehaviorSubject.create()
     var params = DataSearch(null, null, null, null, null)
+    var offset = 0
     fun getRecipesFromApi(param: DataSearch) {
         //Показываем ProgressBar
         progressBarState.onNext(true)
@@ -31,9 +32,10 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
             params.type = param.type
         if (!param.time.equals("Any"))
             params.time = param.time
-        retrofitService.getRecipes(params.cuisine,params.diet, params.ingredients, params.type, params.time,"2",  API.apiKey)
+        retrofitService.getRecipes(params.cuisine,params.diet, params.ingredients, params.type, params.time, offset.toString(),"7",  API.apiKey)
             .subscribeOn(Schedulers.io())
             .map {
+                offset = offset+7
                 Converter.convertApiListToDtoList(it.tmdbRecipes)
             }
             .subscribeBy(
@@ -98,9 +100,5 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     fun clearCache() = repo.clearCache()
     fun getRecipes(paramsSearch: DataSearch) = preferences.getRecipes()
 
-    fun getSearchResultFromApi(search: String): Observable<List<Recipes>> = retrofitService.getRecipes(params.cuisine,params.diet, params.ingredients, params.type, params.time,"2",  API.apiKey)
-        .map {
-            Converter.convertApiListToDtoList(it.tmdbRecipes)
-        }
     fun getFromList() : MutableList<Recipes>? = repo.getFromList()
 }

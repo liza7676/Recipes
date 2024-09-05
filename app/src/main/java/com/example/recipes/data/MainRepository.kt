@@ -33,8 +33,14 @@ class MainRepository(private val recipesDao: RecipesDao) {
                 .addTo(autoDisposable)
     }
     fun putToList(recipes: List<Recipes>){
-        recipesList?.clear()
-        recipesList = recipes.toMutableList()
+       // recipesList?.clear()recipes
+        if(recipesList == null ){
+            recipesList = recipes.toMutableList()
+        } else {
+            recipes.forEach {
+                recipesList?.add(it)
+            }
+        }
     }
     fun getFromList() : MutableList<Recipes>?{
         return recipesList

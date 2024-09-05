@@ -8,6 +8,7 @@ import com.example.recipes.domain.Interactor
 import com.example.recipes.view.fragments.DataSearch
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import java.util.logging.Logger
 import javax.inject.Inject
 
 class ResultFragmentViewModel  : ViewModel() {
@@ -21,6 +22,7 @@ class ResultFragmentViewModel  : ViewModel() {
         App.instance.dagger.inject(this)
         showProgressBar = interactor.progressBarState
         recipesListData = interactor.getRecipesFromDB()
+        interactor.offset = 0
         getRecipes(interactor.getParam())
     }
     fun getRecipes(param: DataSearch){
@@ -31,5 +33,25 @@ class ResultFragmentViewModel  : ViewModel() {
         interactor.getSummaryFromApi(id)
     }
 
-    fun getSearchResult(search: String) = interactor.getSearchResultFromApi(search)
+    fun doSearchPagination(
+        visibleItemCount: Int,
+        totalItemCount: Int,
+        pastVisibleItemCount: Int
+    ) {
+            if ((visibleItemCount+pastVisibleItemCount) == totalItemCount) {
+                println("===" + "${visibleItemCount}" + "${totalItemCount}" + "${pastVisibleItemCount}")
+                getRecipes(interactor.getParam())
+                var i = 0
+                while (i < 50) {
+                    val list = interactor.getFromList()
+                    if (list != null) {
+                        if (list.size > totalItemCount) {
+                            break
+                        }
+                    }
+                    i++
+                    Thread.sleep(100)
+                }
+            }
+    }
 }

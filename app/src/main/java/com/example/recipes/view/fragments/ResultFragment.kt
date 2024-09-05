@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.recipes.MainActivity
 import com.example.recipes.data.entity.Recipes
 import com.example.recipes.databinding.FragmentResultBinding
@@ -58,7 +59,7 @@ class ResultFragment() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.mainRecycler.initSearchPagination()
         binding.mainRecycler.apply {
             //Инициализируем наш адаптер в конструктор передаем анонимно инициализированный интерфейс,
             //оставим его пока пустым, он нам понадобится во второй части задания
@@ -143,5 +144,34 @@ class ResultFragment() : Fragment() {
 
     override fun onStop() {
         super.onStop()
+    }
+    private fun RecyclerView.initSearchPagination() {
+        //Добавляем слушатель для скролла нашего RV
+        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                //Если по оси Y есть изменение
+                if (dy > 0) {
+                    //Получаем количество видимых элементов
+                    val visibleItemCount = recyclerView.layoutManager!!.childCount
+                    //Получаем количесвто общих элементов
+                    val totalItemCount = recyclerView.layoutManager!!.itemCount
+                    //Находим первый видиимый элемент при скролле
+                    val pastVisibleItemCount =
+                        (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    //Совсем этим вызываем метод для пагинации
+                    viewModel.doSearchPagination(
+                        visibleItemCount,
+                        totalItemCount,
+                        pastVisibleItemCount
+                    )
+                    updateRecyclerView()
+                }
+            }
+        }
+        )
+    }
+    fun updateRecyclerView(){
+        recipesAdapter.items.clear()
+        viewModel.interactor.getFromList()?.let { recipesAdapter.addItems(it.toList()) }
     }
 }
