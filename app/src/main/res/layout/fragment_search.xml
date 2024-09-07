@@ -8,16 +8,45 @@
     android:background="@android:color/holo_blue_bright"
     android:orientation="vertical"
 
-    tools:context=".SearchFragment">
+    tools:context=".view.fragments.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="100dp"
-        android:textSize="20sp"
-        android:text="Фрагмент поиска" />
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:shadowColor="#FFC107"
+        android:text="@string/search_recipes"
+        android:textColor="#9C27B0"
+        android:textDirection="ltr"
+        android:textScaleX="1.3"
+        android:textSize="34sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/trivia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="100dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="Фрагмент поиска"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        android:maxHeight="80dp"
+        android:shadowColor="#ff0000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="5"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+         />
     <Button
         android:id="@+id/btn_find"
         android:layout_width="wrap_content"
@@ -27,5 +56,118 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
+
+    <LinearLayout
+        android:id="@+id/layout_cuisine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/trivia"
+        app:layout_constraintBottom_toTopOf="@+id/layout_diet"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:textSize="25sp"
+            android:text="Кухня:"
+            />
+        <Spinner
+            android:id="@+id/cuisineList"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:entries="@array/cuisineList"
+        />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_diet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layout_cuisine"
+        app:layout_constraintBottom_toTopOf="@+id/layout_ingredients"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:textSize="25sp"
+            android:text="Веган:"
+            />
+        <Spinner
+            android:id="@+id/dietList"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:entries="@array/dietList"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layout_diet"
+        app:layout_constraintBottom_toTopOf="@+id/layout_type"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:textSize="25sp"
+            android:text="Продукты:"
+            />
+        <EditText
+            android:id="@+id/ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:textSize="25sp"
+            android:text="Any"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layout_ingredients"
+        app:layout_constraintBottom_toTopOf="@+id/layout_time"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:textSize="25sp"
+            android:text="Тип блюда:"
+            />
+        <Spinner
+            android:id="@+id/typeList"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:entries="@array/typeList"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/layout_type"
+        app:layout_constraintBottom_toTopOf="@+id/btn_find"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5sp"
+            android:textSize="25sp"
+            android:text="Время:"
+            />
+        <Spinner
+            android:id="@+id/timeList"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_margin="5dp"
+            android:entries="@array/timeList"
+            />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

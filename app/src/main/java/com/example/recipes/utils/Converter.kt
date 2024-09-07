@@ -9,10 +9,17 @@ object Converter {
         list?.forEach {
             result.add(Recipes(
                 title = it.title,
-                poster = it.posterPath,
-
+                poster = it.image,
+                id = it.id
             ))
         }
         return result
+    }
+    fun convertApiListToDtoListTrivia(list: com.example.remote_module.entity.TmdbTrivia?): String {
+//        val result = mutableListOf<String>()
+//        list?.forEach {
+//            result.add(it.text )
+//        }
+        return list?.text ?: "-"
     }
 }
