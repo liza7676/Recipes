@@ -5,10 +5,22 @@
     android:id="@+id/settings_fragment_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_bright"
+    android:background="#B1E1B9"
+
     android:orientation="vertical"
 
     tools:context=".view.fragments.SearchFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fon2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/title"
@@ -19,7 +31,7 @@
         android:gravity="center"
         android:shadowColor="#FFC107"
         android:text="@string/search_recipes"
-        android:textColor="#9C27B0"
+        android:textColor="#1A4536"
         android:textDirection="ltr"
         android:textScaleX="1.3"
         android:textSize="34sp"
@@ -32,7 +44,7 @@
         android:id="@+id/trivia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="100dp"
+        android:layout_marginHorizontal="30dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:includeFontPadding="false"
@@ -40,10 +52,10 @@
         android:textSize="20sp"
         android:textStyle="italic"
         android:maxHeight="80dp"
-        android:shadowColor="#ff0000"
+        android:shadowColor="#256A64"
         android:shadowDx="2"
         android:shadowDy="2"
-        android:shadowRadius="5"
+        android:shadowRadius="2"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/title"
          />
