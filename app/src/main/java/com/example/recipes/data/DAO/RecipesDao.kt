@@ -14,6 +14,12 @@ interface RecipesDao {
     @Query("SELECT * FROM cached_recipes")
     fun getCachedRecipes(): Observable<List<Recipes>>
 
+    @Query("SELECT * FROM cached_recipes WHERE property = false")
+    fun getCachedRecipesFavorites(): Observable<List<Recipes>>
+
+    @Query("SELECT * FROM cached_recipes WHERE property = true")
+    fun getCachedRecipesViewed(): Observable<List<Recipes>>
+
     //Кладём списком в БД, в случае конфликта перезаписываем
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(list: List<Recipes>)

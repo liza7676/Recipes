@@ -81,6 +81,11 @@ class ResultFragment() : Fragment() {
                                     Thread.sleep(100)
                                 }
                                 if (!url.equals("Any")) {
+                                    recipes.property = true
+                                    val list = listOf(recipes)
+                                    Executors.newSingleThreadExecutor().execute {
+                                        viewModel.interactor.putToDb(list)
+                                    }
                                     val intent = Intent()
                                     //Указываем action с которым он запускается
                                     intent.action = Intent.ACTION_SEND
@@ -102,6 +107,7 @@ class ResultFragment() : Fragment() {
                                 }
                             }
                             .setNegativeButton("Добавить рецепт в избранное?") { _, _ ->
+                                recipes.property = false
                                 val list = listOf(recipes)
                                 Executors.newSingleThreadExecutor().execute {
                                     viewModel.interactor.putToDb(list)
