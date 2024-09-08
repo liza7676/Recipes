@@ -12,4 +12,9 @@
         android:title="@string/favorites"
         android:icon="@drawable/baseline_favorite_24"
         app:showAsAction="withText"/>
+    <item
+        android:id="@+id/viewed"
+        android:title="@string/viewed"
+        android:icon="@android:drawable/ic_menu_view"
+        app:showAsAction="withText"/>
 </menu>

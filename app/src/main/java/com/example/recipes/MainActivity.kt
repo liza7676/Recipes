@@ -13,6 +13,7 @@ import com.example.recipes.view.fragments.DataSearch
 import com.example.recipes.view.fragments.FavoritesFragment
 import com.example.recipes.view.fragments.ResultFragment
 import com.example.recipes.view.fragments.SearchFragment
+import com.example.recipes.view.fragments.ViewedFragment
 import com.example.recipes.viewmodel.SearchFragmentViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -46,9 +47,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.search -> {
-                    val tag = "watch_later"
+                    val tag = "search"
                     val fragment = checkFragmentExistence(tag)
                     changeFragment(fragment ?: SearchFragment(), tag)
+                    true
+                }
+                R.id.viewed -> {
+                    val tag = "viewed"
+                    val fragment = checkFragmentExistence(tag)
+                    changeFragment(fragment ?: ViewedFragment(), tag)
                     true
                 }
                 else -> false

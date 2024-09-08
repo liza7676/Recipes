@@ -14,14 +14,11 @@ import javax.inject.Inject
 class ResultFragmentViewModel  : ViewModel() {
     @Inject
     lateinit var interactor: Interactor
-    val recipesListData : Observable<List<Recipes>>
     val showProgressBar: BehaviorSubject<Boolean>
-    val paramsSearch = DataSearch("Any", "Any", "Any", "Any", "Any")
 
     init {
         App.instance.dagger.inject(this)
         showProgressBar = interactor.progressBarState
-        recipesListData = interactor.getRecipesFromDB()
         interactor.offset = 0
         getRecipes(interactor.getParam())
     }

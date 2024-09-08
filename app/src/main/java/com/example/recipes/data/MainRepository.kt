@@ -20,18 +20,9 @@ class MainRepository(private val recipesDao: RecipesDao) {
         recipesDao.insertAll(recipes)
     }
 
-    fun getAllFromDB(): Observable<List<Recipes>> = recipesDao.getCachedRecipes()
+    fun getFromDBFavorites(): Observable<List<Recipes>> = recipesDao.getCachedRecipesFavorites()
+    fun getFromDBViewed(): Observable<List<Recipes>> = recipesDao.getCachedRecipesViewed()
 
-     fun clearCache(){
-
-        val cachedRecipes = recipesDao.getCachedRecipes()
-        cachedRecipes.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { list ->
-                    recipesDao.deleteDB(list)
-                }
-                .addTo(autoDisposable)
-    }
     fun putToList(recipes: List<Recipes>){
        // recipesList?.clear()recipes
         if(recipesList == null ){

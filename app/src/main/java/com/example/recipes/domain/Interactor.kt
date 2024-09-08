@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-
+const val CONST_COUNT_SEARCH = 7
 class Interactor(private val repo: MainRepository, private val retrofitService: com.example.remote_module.TmdbApi,
                  private val preferences: PreferenceProvider
 ) {
@@ -32,10 +32,10 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
             params.type = param.type
         if (!param.time.equals("Any"))
             params.time = param.time
-        retrofitService.getRecipes(params.cuisine,params.diet, params.ingredients, params.type, params.time, offset.toString(),"7",  API.apiKey)
+        retrofitService.getRecipes(params.cuisine,params.diet, params.ingredients, params.type, params.time, offset.toString(),CONST_COUNT_SEARCH.toString(),  API.apiKey)
             .subscribeOn(Schedulers.io())
             .map {
-                offset = offset+7
+                offset = offset+CONST_COUNT_SEARCH
                 Converter.convertApiListToDtoList(it.tmdbRecipes)
             }
             .subscribeBy(
@@ -93,12 +93,14 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     fun getParam() = repo.getParams()
 
     fun getUrl() = repo.getUrl()
-    fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
+    //fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
+    fun getRecipesFromDBFavorites(): Observable<List<Recipes>> = repo.getFromDBFavorites()
+    fun getRecipesFromDBViewed(): Observable<List<Recipes>> = repo.getFromDBViewed()
     fun putToDb(list: List<Recipes>) = repo.putToDb(list)
 
-    fun clearInCacheRecipes() = repo.clearInCacheRecipes()
-    fun clearCache() = repo.clearCache()
-    fun getRecipes(paramsSearch: DataSearch) = preferences.getRecipes()
+//    fun clearInCacheRecipes() = repo.clearInCacheRecipes()
+//    fun clearCache() = repo.clearCache()
+//    fun getRecipes(paramsSearch: DataSearch) = preferences.getRecipes()
 
     fun getFromList() : MutableList<Recipes>? = repo.getFromList()
 }

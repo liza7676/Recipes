@@ -8,6 +8,7 @@ import com.example.recipes.view.fragments.SearchFragment
 import com.example.recipes.viewmodel.FavoritesFragmentViewModel
 import com.example.recipes.viewmodel.ResultFragmentViewModel
 import com.example.recipes.viewmodel.SearchFragmentViewModel
+import com.example.recipes.viewmodel.ViewedFragmentViewModel
 import dagger.Component
 import javax.inject.Singleton
 import com.example.remote_module.RemoteProvider
@@ -25,4 +26,5 @@ interface AppComponent {
     fun inject(favoritesFragment: FavoritesFragmentViewModel)
     fun inject(resultFragment: ResultFragmentViewModel)
     fun inject(searchFragment: SearchFragmentViewModel)
+    fun inject(viewedFragment: ViewedFragmentViewModel)
 }

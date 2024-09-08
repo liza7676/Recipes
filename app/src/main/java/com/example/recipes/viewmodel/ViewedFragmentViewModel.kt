@@ -8,16 +8,16 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import javax.inject.Inject
 
-class FavoritesFragmentViewModel : ViewModel() {
+class ViewedFragmentViewModel  : ViewModel() {
     //Инициализируем интерактор
     @Inject
     lateinit var interactor: Interactor
-    val recipesListData : Observable<List<Recipes>>
+    val recipesListData: Observable<List<Recipes>>
     val showProgressBar: BehaviorSubject<Boolean>
 
     init {
         App.instance.dagger.inject(this)
         showProgressBar = interactor.progressBarState
-        recipesListData = interactor.getRecipesFromDBFavorites()
+        recipesListData = interactor.getRecipesFromDBViewed()
     }
 }
