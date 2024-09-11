@@ -96,6 +96,8 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     //fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
     fun getRecipesFromDBFavorites(): Observable<List<Recipes>> = repo.getFromDBFavorites()
     fun getRecipesFromDBViewed(): Observable<List<Recipes>> = repo.getFromDBViewed()
+    fun delFromFavorites(recipes: Recipes) = repo.delFromFavorites(recipes)
+    fun searchFromFavorites(id: Int):Recipes? = repo.searchFromFavorites(id)
     fun putToDb(list: List<Recipes>) = repo.putToDb(list)
 
 //    fun clearInCacheRecipes() = repo.clearInCacheRecipes()

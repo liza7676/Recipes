@@ -46,16 +46,15 @@ class MainRepository(private val recipesDao: RecipesDao) {
     fun getParams(): DataSearch{
         return params
     }
-    fun clearInCacheRecipes(){
-        val cachedRecipes = recipesDao.getCachedRecipes()
-        cachedRecipes.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { list ->
-                list.forEach {
-                    recipesDao.deleteRecipes(it)
-                }
-            }
-            .addTo(autoDisposable)
+    fun delFromFavorites(recipes: Recipes){
+        val rec = recipesDao.getCachedRecipes(recipes.id)
+
+        if(rec != null)
+            recipesDao.deleteRecipes(rec)
+    }
+
+    fun searchFromFavorites(id: Int): Recipes?{
+        return recipesDao.getCachedRecipes(id)
     }
     fun getUrl(): String{
         return recipesUrl

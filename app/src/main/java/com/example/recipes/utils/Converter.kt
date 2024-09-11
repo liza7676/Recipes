@@ -11,7 +11,8 @@ object Converter {
                 title = it.title,
                 poster = it.image,
                 id = it.id,
-                property = false
+                isInFavorites = false,
+                isViewed = false
             ))
         }
         return result

@@ -11,13 +11,13 @@ import io.reactivex.rxjava3.core.Observable
 @Dao
 interface RecipesDao {
     //Запрос на всю таблицу
-    @Query("SELECT * FROM cached_recipes")
-    fun getCachedRecipes(): Observable<List<Recipes>>
+    @Query("SELECT * FROM cached_recipes WHERE id == :idRecipes")
+    fun getCachedRecipes(idRecipes: Int): Recipes
 
-    @Query("SELECT * FROM cached_recipes WHERE property = false")
+    @Query("SELECT * FROM cached_recipes WHERE isInFavorites = true")
     fun getCachedRecipesFavorites(): Observable<List<Recipes>>
 
-    @Query("SELECT * FROM cached_recipes WHERE property = true")
+    @Query("SELECT * FROM cached_recipes WHERE isViewed = true")
     fun getCachedRecipesViewed(): Observable<List<Recipes>>
 
     //Кладём списком в БД, в случае конфликта перезаписываем
@@ -29,5 +29,8 @@ interface RecipesDao {
 
     @Delete
     fun deleteRecipes(recipes:Recipes)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRecipes(recipes: Recipes)
 
 }

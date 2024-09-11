@@ -136,7 +136,7 @@ class FavoritesFragment : Fragment() {
         binding.mainRecycler.apply {
             recipesAdapter = RecipesListRecyclerAdapter(object : RecipesListRecyclerAdapter.OnItemClickListener{
                 override fun click(recipes: Recipes) {
-                //    (requireActivity() as MainActivity).launchDetailsFragment(recipes)
+                    (requireActivity() as MainActivity).launchDetailsFragment(recipes)
                 }
             })
             //Присваиваем адаптер
