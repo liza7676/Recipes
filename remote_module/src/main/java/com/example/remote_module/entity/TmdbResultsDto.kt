@@ -20,5 +20,19 @@ data class TmdbTriviaDto (
 
 data class TmdbSummaryDto (
     @SerializedName("sourceUrl")
-    val tmdbSourceUrl: String
+    val tmdbSourceUrl: String,
+    @SerializedName("servings") //порции
+    val servings: Int,
+    @SerializedName("readyInMinutes")
+    val readyInMinutes: Int,
+    @SerializedName("vegetarian")
+    val vegetarian: Boolean,
+    @SerializedName("dishTypes")
+    val dishTypes: List<String>,
+    @SerializedName("extendedIngredients")
+    val tmdbIngredients: List<com.example.remote_module.entity.TmdbIngredients>,
+    @SerializedName("summary")
+    val summary: String,
+    @SerializedName("analyzedInstructions")
+    val tmdbInstructions: List<com.example.remote_module.entity.TmdbInstructions>
 )

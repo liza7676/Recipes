@@ -12,18 +12,16 @@ data class TmdbRecipes (
 
 )
 
-data class TmdbTrivia (
-    @SerializedName("text")
-    val text: String
-
+data class TmdbInstructions(
+    @SerializedName("steps")
+    val steps: List<com.example.remote_module.entity.TmdbSteps>
+)
+data class  TmdbIngredients(
+    @SerializedName("original")
+    val original: String
 )
 
-data class TmdbSummary (
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("sourceUrl")
-    val sourceUrl: String,
-    @SerializedName("title")
-    val title: String
-
+data class  TmdbSteps(
+    @SerializedName("step")
+    val step: String
 )

@@ -21,17 +21,6 @@ class DetailsFragmentViewModel  : ViewModel() {
         App.instance.dagger.inject(this)
         showProgressBar = interactor.progressBarState
     }
-    suspend fun loadWallpaper(url: String): Bitmap? {
-        return suspendCoroutine {
-            try {
-                val url = URL(url)
-                val bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                it.resume(bitmap)
-            } catch (e: IOException){
-                it.resume(null)
-            }
-        }
-    }
     fun getSummary(id: String){
         interactor.getSummaryFromApi(id)
     }

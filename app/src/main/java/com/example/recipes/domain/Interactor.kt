@@ -5,6 +5,7 @@ import com.example.recipes.data.MainRepository
 import com.example.recipes.data.PreferenceProvider
 import com.example.recipes.utils.Converter
 import com.example.recipes.data.entity.Recipes
+import com.example.recipes.utils.Converter.convertApiListToDtoListSummary
 import com.example.recipes.view.fragments.DataSearch
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -74,7 +75,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
         retrofitService.getSummary(id,  API.apiKey)
             .subscribeOn(Schedulers.io())
             .map {
-                repo.setUrl(it.tmdbSourceUrl)
+                convertApiListToDtoListSummary(it)
             }
             .subscribeBy(
                 onError = {
@@ -82,6 +83,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
                 },
                 onNext = {
                     progressBarState.onNext(false)
+                    repo.putSummary(it)
                 }
             )
     }
