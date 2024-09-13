@@ -1,25 +1,34 @@
 package com.example.recipes.view.fragments
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.BackgroundColorSpan
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.StrikethroughSpan
+import android.text.style.StyleSpan
+import android.text.style.TypefaceSpan
+import android.text.style.URLSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.recipes.R
 import com.example.recipes.data.entity.Recipes
 import com.example.recipes.databinding.FragmentDetailsBinding
 import com.example.recipes.viewmodel.DetailsFragmentViewModel
-import com.example.recipes.viewmodel.ResultFragmentViewModel
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -72,15 +81,27 @@ class DetailsFragment : Fragment() {
             }
         }
 
-    //Устанавливаем заголовок
+        viewModel.getSummary(recipes.id.toString())
+        viewModel.interactor.setUrl( "Any")
+        var i = 0
+        while (i < 50) {
+            val url = viewModel.interactor.getUrl()
+            if (!url.equals("Any")) {
+                val builder = SpannableStringBuilder()
+                formatText(builder )
+                binding.detailsDescription.setText(builder);
+                break
+            }
+            i++
+            Thread.sleep(100)
+        }
+        //Устанавливаем заголовок
         binding.detailsToolbar.title = recipes.title
         //Устанавливаем картинку
         Glide.with(this)
             .load(recipes.poster)
             .centerCrop()
             .into(binding.detailsPoster)
-        //Устанавливаем описание
-        binding.detailsDescription.text = "много много текста"//recipes.description
 
         binding.detailsFabFavorites.setImageResource(
             if (recipes.isInFavorites == true) R.drawable.ic_baseline_favorite_24
@@ -146,5 +167,62 @@ class DetailsFragment : Fragment() {
         }
 
     }
+    fun formatText(builder : SpannableStringBuilder){
+        val summary = viewModel.interactor.getSummary()
+        val servings = SpannableString("Порций:  " + summary.servings.toString() + "\n\n")
+        val times = SpannableString("Время готовки:  " + summary.readyInMinutes.toString() + " минут\n\n")
+        val veg = SpannableString("Вегетарианское:  " + (if(summary.vegetarian == true) "ДА" else "НЕТ") + "\n\n")
+        val s = summary.dishTypes.toString()
+        val type = SpannableString("Подходит для:  " + s.substring(1, s.length-1) + "\n\n")
 
+        val flag = Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+
+        servings.setSpan(TypefaceSpan("monospace"), 0, servings.length, flag)
+        servings.setSpan(RelativeSizeSpan(1.2f), 0, servings.length, flag)
+        times.setSpan(TypefaceSpan("monospace"), 0, times.length, flag)
+        veg.setSpan(TypefaceSpan("monospace"), 0, veg.length, flag)
+        veg.setSpan(BackgroundColorSpan(Color.YELLOW), veg.length-5, veg.length, flag)
+
+        type.setSpan(ForegroundColorSpan(Color.BLUE), 0, type.length, flag)
+
+        if (summary.servings != 0 ) builder.append(servings)
+        if (summary.readyInMinutes != 0 ) builder.append(times)
+        builder.append(veg)
+        if(summary.dishTypes.size > 0) builder.append(type)
+
+        if(summary.tmdbIngredients.size > 0){
+            val ingredients = SpannableString("Ингридиенты:" + "\n")
+            ingredients.setSpan(RelativeSizeSpan(2f), 0, ingredients.length, flag)
+            builder.append(ingredients)
+            summary.tmdbIngredients.forEach{
+                if (it.length > 0) {
+                    val ingr = SpannableString(" -  " + it + "\n")
+                    ingr.setSpan(StyleSpan(Typeface.ITALIC), 0, ingr.length, flag)
+                    builder.append(ingr)
+                }
+            }
+        }
+        if (summary.summary.length > 0){
+            var ssumm = SpannableString("\nОписание:" + "\n")
+            ssumm.setSpan(RelativeSizeSpan(2f), 0, ssumm.length, flag)
+            builder.append(ssumm)
+            ssumm = SpannableString(summary.summary + "\n\n")
+            ssumm.setSpan(StyleSpan(Typeface.ITALIC), 0, ssumm.length, flag)
+            builder.append(ssumm)
+        }
+
+        if(summary.tmdbInstructions.size > 0){
+            val instructions = SpannableString("\nИнструкция:" + "\n")
+            instructions.setSpan(RelativeSizeSpan(2f), 0, instructions.length, flag)
+            builder.append(instructions)
+            for (i in 0 .. summary.tmdbInstructions.size-1){
+                if (summary.tmdbInstructions[i].length > 0) {
+                    val ingr = SpannableString((i+1).toString() + ".  " + summary.tmdbInstructions[i] + "\n\n")
+                    ingr.setSpan(StyleSpan(Typeface.ITALIC), 0, ingr.length, flag)
+                    ingr.setSpan(RelativeSizeSpan(1.3f), 0, ingr.length, flag)
+                    builder.append(ingr)
+                }
+            }
+        }
+    }
 }

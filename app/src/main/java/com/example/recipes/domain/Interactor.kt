@@ -5,6 +5,7 @@ import com.example.recipes.data.MainRepository
 import com.example.recipes.data.PreferenceProvider
 import com.example.recipes.utils.Converter
 import com.example.recipes.data.entity.Recipes
+import com.example.recipes.data.entity.Summary
 import com.example.recipes.utils.Converter.convertApiListToDtoListSummary
 import com.example.recipes.view.fragments.DataSearch
 import io.reactivex.rxjava3.core.Observable
@@ -95,6 +96,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     fun getParam() = repo.getParams()
 
     fun getUrl() = repo.getUrl()
+    fun setUrl(s: String) = repo.setUrl(s)
     //fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
     fun getRecipesFromDBFavorites(): Observable<List<Recipes>> = repo.getFromDBFavorites()
     fun getRecipesFromDBViewed(): Observable<List<Recipes>> = repo.getFromDBViewed()
@@ -102,6 +104,7 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     fun searchFromFavorites(id: Int):Recipes? = repo.searchFromFavorites(id)
     fun putToDb(list: List<Recipes>) = repo.putToDb(list)
 
+    fun getSummary(): Summary = repo.summary
 //    fun clearInCacheRecipes() = repo.clearInCacheRecipes()
 //    fun clearCache() = repo.clearCache()
 //    fun getRecipes(paramsSearch: DataSearch) = preferences.getRecipes()
