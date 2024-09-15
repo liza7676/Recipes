@@ -8,8 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import com.example.recipes.data.entity.Recipes
 import com.example.recipes.databinding.ActivityMainBinding
 import com.example.recipes.view.fragments.DataSearch
+import com.example.recipes.view.fragments.DetailsFragment
 import com.example.recipes.view.fragments.FavoritesFragment
 import com.example.recipes.view.fragments.ResultFragment
 import com.example.recipes.view.fragments.SearchFragment
@@ -87,6 +89,22 @@ class MainActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.fragment_placeholder, fragment)
             //.addToBackStack(null)
+            .commit()
+    }
+    fun launchDetailsFragment(recipes: Recipes) {
+        //Создаем "посылку"
+        val bundle = Bundle()
+        bundle.putParcelable("recipes", recipes)
+        //Кладем фрагмент с деталями в перменную
+        val fragment = DetailsFragment()
+        //Прикрепляем нашу "посылку" к фрагменту
+        fragment.arguments = bundle
+
+        //Запускаем фрагмент
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_placeholder, fragment)
+            .addToBackStack(null)
             .commit()
     }
 }

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project.utils.AnimationHelper
+import com.example.recipes.MainActivity
 import com.example.recipes.data.entity.Recipes
 import com.example.recipes.databinding.FragmentViewedBinding
 import com.example.recipes.rv_adapter.RecipesListRecyclerAdapter
@@ -61,7 +62,7 @@ class ViewedFragment : Fragment() {
             recipesAdapter =
                 RecipesListRecyclerAdapter(object : RecipesListRecyclerAdapter.OnItemClickListener {
                     override fun click(recipes: Recipes) {
-
+                        (requireActivity() as MainActivity).launchDetailsFragment(recipes)
                     }
                 })
             //Присваиваем адаптер

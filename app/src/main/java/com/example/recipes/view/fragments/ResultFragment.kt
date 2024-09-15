@@ -66,60 +66,66 @@ class ResultFragment() : Fragment() {
             recipesAdapter =
                 RecipesListRecyclerAdapter(object : RecipesListRecyclerAdapter.OnItemClickListener {
                     override fun click(recipes: Recipes) {
-                        AlertDialog.Builder((requireActivity() as MainActivity))
-                            .setTitle("${recipes.title.toString()}")
-                            .setPositiveButton("Хотите перейти к рецепту?") { _, _ ->
-                                viewModel.getSummary(recipes.id.toString())
-                                var i = 0
-                                var url = "Any"
-                                while (i < 50) {
-                                    url = viewModel.interactor.getUrl()
-                                    if (!url.equals("Any")) {
-                                        break
-                                    }
-                                    i++
-                                    Thread.sleep(100)
-                                }
-                                if (!url.equals("Any")) {
-                                    recipes.property = true
-                                    val list = listOf(recipes)
-                                    Executors.newSingleThreadExecutor().execute {
-                                        viewModel.interactor.putToDb(list)
-                                    }
-                                    val intent = Intent()
-                                    //Указываем action с которым он запускается
-                                    intent.action = Intent.ACTION_SEND
-                                    //Кладем данные о нашем рецепте
-                                    intent.putExtra(
-                                        Intent.EXTRA_TEXT,
-                                        "Check out this recipes: ${recipes.title.toString()} \n\n ${url}"
-                                    )
-                                    //Указываем MIME тип, чтобы система знала, какое приложения предложить
-                                    intent.type = "text/plain"
-                                    //Запускаем наше активити
-                                    startActivity(Intent.createChooser(intent, "Share To:"))
-                                } else {
-                                    Toast.makeText(
-                                        view.context,
-                                        "Что то пошло не так.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                            .setNegativeButton("Добавить рецепт в избранное?") { _, _ ->
-                                recipes.property = false
-                                val list = listOf(recipes)
-                                Executors.newSingleThreadExecutor().execute {
-                                    viewModel.interactor.putToDb(list)
-                                }
-                                Toast.makeText(
-                                    view.context,
-                                    "Рецепт добавлен",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                            }
-                            .show()
+                        recipes.isViewed = true
+                        val list = listOf(recipes)
+                        Executors.newSingleThreadExecutor().execute {
+                            viewModel.interactor.putToDb(list)
+                        }
+                        (requireActivity() as MainActivity).launchDetailsFragment(recipes)
+//                        AlertDialog.Builder((requireActivity() as MainActivity))
+//                            .setTitle("${recipes.title.toString()}")
+//                            .setPositiveButton("Хотите перейти к рецепту?") { _, _ ->
+//                                viewModel.getSummary(recipes.id.toString())
+//                                var i = 0
+//                                var url = "Any"
+//                                while (i < 50) {
+//                                    url = viewModel.interactor.getUrl()
+//                                    if (!url.equals("Any")) {
+//                                        break
+//                                    }
+//                                    i++
+//                                    Thread.sleep(100)
+//                                }
+//                                if (!url.equals("Any")) {
+//                                    recipes.property = true
+//                                    val list = listOf(recipes)
+//                                    Executors.newSingleThreadExecutor().execute {
+//                                        viewModel.interactor.putToDb(list)
+//                                    }
+//                                    val intent = Intent()
+//                                    //Указываем action с которым он запускается
+//                                    intent.action = Intent.ACTION_SEND
+//                                    //Кладем данные о нашем рецепте
+//                                    intent.putExtra(
+//                                        Intent.EXTRA_TEXT,
+//                                        "Check out this recipes: ${recipes.title.toString()} \n\n ${url}"
+//                                    )
+//                                    //Указываем MIME тип, чтобы система знала, какое приложения предложить
+//                                    intent.type = "text/plain"
+//                                    //Запускаем наше активити
+//                                    startActivity(Intent.createChooser(intent, "Share To:"))
+//                                } else {
+//                                    Toast.makeText(
+//                                        view.context,
+//                                        "Что то пошло не так.",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                }
+//                            }
+//                            .setNegativeButton("Добавить рецепт в избранное?") { _, _ ->
+//                                recipes.property = false
+//                                val list = listOf(recipes)
+//                                Executors.newSingleThreadExecutor().execute {
+//                                    viewModel.interactor.putToDb(list)
+//                                }
+//                                Toast.makeText(
+//                                    view.context,
+//                                    "Рецепт добавлен",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+//
+//                            }
+//                            .show()
                     }
                 })
             //Присваиваем адаптер
@@ -128,7 +134,7 @@ class ResultFragment() : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
 
         }
-
+        recipesAdapter.items.clear()
         viewModel.showProgressBar
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

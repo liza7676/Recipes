@@ -2,9 +2,11 @@ package com.example.recipes.di
 
 import com.example.recipes.di.modules.DatabaseModule
 import com.example.recipes.di.modules.DomainModule
+import com.example.recipes.view.fragments.DetailsFragment
 import com.example.recipes.view.fragments.FavoritesFragment
 import com.example.recipes.view.fragments.ResultFragment
 import com.example.recipes.view.fragments.SearchFragment
+import com.example.recipes.viewmodel.DetailsFragmentViewModel
 import com.example.recipes.viewmodel.FavoritesFragmentViewModel
 import com.example.recipes.viewmodel.ResultFragmentViewModel
 import com.example.recipes.viewmodel.SearchFragmentViewModel
@@ -27,4 +29,5 @@ interface AppComponent {
     fun inject(resultFragment: ResultFragmentViewModel)
     fun inject(searchFragment: SearchFragmentViewModel)
     fun inject(viewedFragment: ViewedFragmentViewModel)
+    fun inject(detailsFragment: DetailsFragmentViewModel)
 }

@@ -13,5 +13,6 @@ data class Recipes(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "poster_path") val poster: String?, //У нас будет приходить ссылка на картинку, так что теперь это String
-    @ColumnInfo(name = "property") var property: Boolean?, //false - избранное, true - просмотренные
+    @ColumnInfo(name = "isInFavorites") var isInFavorites: Boolean = false,
+    @ColumnInfo(name = "isViewed") var isViewed: Boolean = false,
 ) : Parcelable
