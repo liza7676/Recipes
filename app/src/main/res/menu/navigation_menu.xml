@@ -17,4 +17,9 @@
         android:title="@string/viewed"
         android:icon="@android:drawable/ic_menu_view"
         app:showAsAction="withText"/>
+    <item
+        android:id="@+id/cook_later"
+        android:icon="@drawable/baseline_more_time_24"
+        android:title="Напоминалка"
+        app:showAsAction="withText"/>
 </menu>

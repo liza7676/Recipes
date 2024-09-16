@@ -54,6 +54,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@android:color/holo_green_dark"
         app:borderWidth="1dp"
+        android:contentDescription="share"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="right"
         app:srcCompat="@drawable/ic_baseline_share_24"
@@ -65,10 +66,24 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:borderWidth="1dp"
+        android:contentDescription="favorites"
         android:backgroundTint="@android:color/holo_green_dark"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="left"
         app:srcCompat="@drawable/ic_baseline_favorite_border_24"
+        app:tint="@android:color/white"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/details_fab_cook_later"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:borderWidth="0dp"
+        android:contentDescription="cook later"
+        android:backgroundTint="@android:color/holo_green_dark"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="right|bottom"
+        app:srcCompat="@drawable/baseline_more_time_24"
         app:tint="@android:color/white"/>
 
     <ProgressBar
