@@ -11,11 +11,6 @@ class PreferenceProvider(context: Context) {
     //Создаем экземпляр SharedPreferences
     private val preference: SharedPreferences = appContext.getSharedPreferences("settings", Context.MODE_PRIVATE)
 
-    init {
-
-    }
-
-
     fun saveTrivia(trivia: String) {
         preference.edit().putString(TRIVIA, trivia) .apply()
     }
@@ -28,29 +23,27 @@ class PreferenceProvider(context: Context) {
     }
     fun gatParam(): DataSearch
     {
-       return DataSearch(preference.getString(CUISINE, "Any") ?: "Any",
-           preference.getString(DIET, "Any") ?: "Any",
-           preference.getString(INGREDIENTS, "Any") ?: "Any",
-           preference.getString(TYPE, "Any") ?: "Any",
-           preference.getString(TIME, "Any") ?: "Any",
+       return DataSearch(
+           preference.getString(CUISINE, "Any") ,
+           preference.getString(DIET, "Any") ,
+           preference.getString(INGREDIENTS, "Any") ,
+           preference.getString(TYPE, "Any") ,
+           preference.getString(TIME, "Any"),
            )
     }
     fun getTrivia(): String {
         return preference.getString(TRIVIA, DEFAULT_TRIVIA) ?: DEFAULT_TRIVIA
     }
 
-    fun getRecipes(): String {
-        return preference.getString(TRIVIA, DEFAULT_TRIVIA) ?: DEFAULT_TRIVIA
-    }
 
     //Ключи для наших настроек, по ним мы их будем получать
     companion object {
         private const val DEFAULT_TRIVIA = "no data"
         private const val TRIVIA = "The fig is also a fertility symbol and the Arab association with male genitals is so strong that the original word 'fig' is considered improper."
-        private const val CUISINE = "Any"
-        private const val DIET = "Any"
-        private const val INGREDIENTS = "Any"
-        private const val TYPE = "Any"
-        private const val TIME = "Any"
+        private const val CUISINE = "CUISINE"
+        private const val DIET = "DIET"
+        private const val INGREDIENTS = "INGREDIENTS"
+        private const val TYPE = "TYPE"
+        private const val TIME = "TIME"
     }
 }

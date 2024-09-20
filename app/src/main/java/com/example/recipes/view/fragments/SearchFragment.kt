@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.recipes.MainActivity
+import com.example.recipes.R
 import com.example.recipes.databinding.FragmentSearchBinding
 import com.example.recipes.viewmodel.SearchFragmentViewModel
 
@@ -35,8 +36,31 @@ class SearchFragment : Fragment() {
         binding.trivia.movementMethod = ScrollingMovementMethod()
         val s = viewModel.interactor.getTrivia()
         binding.trivia.text = s
+        val gParams = viewModel.interactor.getParamsToPreferences()
+        val cuisineList = getResources().getStringArray(R.array.cuisineList)
+        for (i in 0 until cuisineList.size){
+            if (cuisineList[i].equals(gParams.cuisine))
+                binding.cuisineList.setSelection(i)
+        }
+        val dietList = getResources().getStringArray(R.array.dietList)
+        for (i in 0 until dietList.size){
+            if (dietList[i].equals(gParams.diet))
+                binding.dietList.setSelection(i)
+        }
 
-
+        if(gParams.ingredients != null) {
+            binding.ingredients.setText(gParams.ingredients)
+        }
+        val typeList = getResources().getStringArray(R.array.typeList)
+        for (i in 0 until typeList.size){
+            if (typeList[i].equals(gParams.type))
+                binding.typeList.setSelection(i)
+        }
+        val timeList = getResources().getStringArray(R.array.timeList)
+        for (i in 0 until timeList.size){
+            if (timeList[i].equals(gParams.time))
+                binding.timeList.setSelection(i)
+        }
         binding.btnFind.setOnClickListener {
             //viewModel.interactor.clearCache()
             val params = DataSearch(
@@ -45,7 +69,7 @@ class SearchFragment : Fragment() {
             binding.ingredients.text.toString(),
             binding.typeList.getSelectedItem().toString(),
             binding.timeList.getSelectedItem().toString())
-            viewModel.interactor.setParam(params)
+            viewModel.interactor.saveParamsToPreferences(params)
             (requireActivity() as MainActivity).launchResultFragment()
         }
 

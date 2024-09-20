@@ -1,5 +1,8 @@
 package com.example.recipes
 
+import android.content.BroadcastReceiver
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -10,9 +13,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.recipes.data.entity.Recipes
 import com.example.recipes.databinding.ActivityMainBinding
+//import com.example.recipes.receivers.ConnectionChecker
 import com.example.recipes.view.fragments.DataSearch
 import com.example.recipes.view.fragments.DetailsFragment
 import com.example.recipes.view.fragments.FavoritesFragment
+import com.example.recipes.view.fragments.LaterFragment
 import com.example.recipes.view.fragments.ResultFragment
 import com.example.recipes.view.fragments.SearchFragment
 import com.example.recipes.view.fragments.ViewedFragment
@@ -26,7 +31,8 @@ import javax.net.ssl.HttpsURLConnection
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val paramsSearch = DataSearch("Any", "Any", "Any", "Any", "Any")
+   // private lateinit var receiver: BroadcastReceiver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -39,6 +45,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+//        receiver = ConnectionChecker()
+//        val filters = IntentFilter().apply {
+//            addAction(Intent.ACTION_POWER_CONNECTED)
+//            addAction(Intent.ACTION_BATTERY_LOW)
+//        }
+//        registerReceiver(receiver, filters)
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.favorites -> {
@@ -58,6 +71,12 @@ class MainActivity : AppCompatActivity() {
                     val tag = "viewed"
                     val fragment = checkFragmentExistence(tag)
                     changeFragment(fragment ?: ViewedFragment(), tag)
+                    true
+                }
+                R.id.cook_later -> {
+                    val tag = "later"
+                    val fragment = checkFragmentExistence(tag)
+                    changeFragment(fragment ?: LaterFragment(), tag)
                     true
                 }
                 else -> false
@@ -107,4 +126,9 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(null)
             .commit()
     }
+
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        unregisterReceiver(receiver)
+//    }
 }

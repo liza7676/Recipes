@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.example.recipes.R
 import com.example.recipes.data.entity.Recipes
 import com.example.recipes.databinding.FragmentDetailsBinding
+import com.example.recipes.notifications.NotificationHelper
 import com.example.recipes.viewmodel.DetailsFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -164,6 +165,9 @@ class DetailsFragment : Fragment() {
                 ).show()
             }
 
+        }
+        binding.detailsFabCookLater.setOnClickListener {
+            NotificationHelper.notificationSet(requireContext(), recipes)
         }
 
     }
