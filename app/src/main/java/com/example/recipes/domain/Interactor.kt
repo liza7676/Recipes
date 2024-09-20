@@ -90,14 +90,12 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     }
 
     fun getTrivia() = preferences.getTrivia()
-   // fun getParam() = preferences.gatParam()
-    //fun setParam(param: DataSearch) = preferences.saveParam(param)
-    fun setParam(param: DataSearch) = repo.setParam(param)
+    fun saveParamsToPreferences(param: DataSearch) = preferences.saveParam(param)
+    fun getParamsToPreferences(): DataSearch = preferences.gatParam()
     fun getParam() = repo.getParams()
 
     fun getUrl() = repo.getUrl()
     fun setUrl(s: String) = repo.setUrl(s)
-    //fun getRecipesFromDB(): Observable<List<Recipes>> = repo.getAllFromDB()
     fun getRecipesFromDBFavorites(): Observable<List<Recipes>> = repo.getFromDBFavorites()
     fun getRecipesFromDBViewed(): Observable<List<Recipes>> = repo.getFromDBViewed()
     fun delFromFavorites(recipes: Recipes) = repo.delFromFavorites(recipes)
@@ -105,9 +103,6 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
     fun putToDb(list: List<Recipes>) = repo.putToDb(list)
 
     fun getSummary(): Summary = repo.summary
-//    fun clearInCacheRecipes() = repo.clearInCacheRecipes()
-//    fun clearCache() = repo.clearCache()
-//    fun getRecipes(paramsSearch: DataSearch) = preferences.getRecipes()
 
     fun getFromList() : MutableList<Recipes>? = repo.getFromList()
 }
